@@ -7,3 +7,10 @@ http://127.0.0.1:3030/hello/A%E2%99%A0+J%E2%99%A6+6%E2%99%A5+6%E2%99%A3
 https://stackoverflow.com/questions/912811/what-is-the-proper-way-to-url-encode-unicode-characters
 https://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_in_a_URI
 https://blog.logrocket.com/encoding-and-decoding-packages-for-rust/
+
+## Dependencies
+
+* tokio-rs
+* warp
+* [futures](https://crates.io/crates/futures)
+* percent-encoding

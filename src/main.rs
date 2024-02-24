@@ -5,7 +5,7 @@ use warp::Filter;
 #[tokio::main]
 async fn main() {
     let hello =
-        warp::path!("hello" / String).map(|name| format!("Hello, {}!", decode_string(name)));
+        warp::path!("hello" / String).map(|name| format!("Hello, \n{}!", decode_string(name)));
 
     warp::serve(hello).run(([127, 0, 0, 1], 3030)).await;
 }
@@ -22,7 +22,7 @@ fn decode_string(s: String) -> String {
     decode(s.as_str())
 }
 
-/// I will confess that the magic that this method can take a char
+/// I will confess that the magic that `replace()` can take a char
 /// and a Cow<str> and return a String is beyond me (hopefully, at
 /// the moment).
 fn replace_plus(s: Cow<str>) -> String {
@@ -48,8 +48,6 @@ mod main_tests {
 
     #[test]
     fn replace_plus() {
-        let s = "A♠+J♦+6♥+6♣";
-
-        assert_eq!(super::replace_plus(s.into()), "A♠ J♦ 6♥ 6♣");
+        assert_eq!(super::replace_plus("A♠+J♦+6♥+6♣".into()), "A♠ J♦ 6♥ 6♣");
     }
 }
