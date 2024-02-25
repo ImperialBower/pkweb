@@ -1,13 +1,81 @@
+use serde_derive::{Deserialize, Serialize};
 use std::borrow::Cow;
+use pkcore::arrays::matchups::sorted_heads_up::SortedHeadsUp;
+use pkcore::arrays::two::Two;
+use pkcore::bard::Bard;
+use warp::http::Response;
 use warp::Filter;
 
-///
+#[derive(Debug, Deserialize, Serialize)]
+struct Hup {
+    hero: u64,
+    villain: u64,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+struct ProcessedHup {
+    hup: Hup,
+    twos: SortedHeadsUp,
+}
+
+impl TryFrom<Hup> for ProcessedHup {
+    type Error = &'static str;
+
+    fn try_from(hup: Hup) -> Result<Self, Self::Error> {
+        let hero = match Two::try_from(Bard::from(hup.hero)) {
+            Ok(two) => two,
+            Err(_) => return Err("Hero is not a valid Bard"),
+        };
+        let villain = match Two::try_from(Bard::from(hup.villain)) {
+            Ok(two) => two,
+            Err(_) => return Err("Villain is not a valid Bard"),
+        };
+
+        if hup.hero == hup.villain {
+            return Err("hero and villain cannot be the same");
+        }
+        Ok(ProcessedHup {
+            hup,
+            twos: SortedHeadsUp::new(hero, villain),
+        })
+    }
+}
+
+#[derive(Deserialize, Serialize)]
+struct MyObject {
+    key1: String,
+    key2: u32,
+}
+
+/// See <https://github.com/seanmonstar/warp/blob/master/examples/query_string.rs />
 #[tokio::main]
 async fn main() {
+    pretty_env_logger::init();
+
     let hello =
         warp::path!("hello" / String).map(|name| format!("Hello, \n{}!", decode_string(name)));
 
-    warp::serve(hello).run(([127, 0, 0, 1], 3030)).await;
+    let hup_path = warp::get()
+        .and(warp::path("hup"))
+        .and(warp::query::<Hup>())
+        .map(|p: Hup| {
+            let processed = match ProcessedHup::try_from(p) {
+                Ok(processed) => processed,
+                Err(e) => return Response::builder().body(format!("{}", e)),
+            };
+            Response::builder().body(format!("{}", processed.twos.get_letter_index()))
+        });
+
+    let example2 = warp::get()
+        .and(warp::path("example2"))
+        .and(warp::query::<MyObject>())
+        .map(|p: MyObject| {
+            Response::builder().body(format!("key1 = {}, key2 = {}", p.key1, p.key2))
+        });
+
+    warp::serve(hello.or(example2).or(hup_path))
+        .run(([127, 0, 0, 1], 3030))
+        .await;
 }
 
 fn decode(s: &str) -> String {
