@@ -1,3 +1,5 @@
+mod env;
+
 use serde_derive::{Deserialize, Serialize};
 use std::borrow::Cow;
 use pkcore::arrays::matchups::sorted_heads_up::SortedHeadsUp;
@@ -52,6 +54,8 @@ struct MyObject {
 async fn main() {
     pretty_env_logger::init();
 
+    let health_check = warp::path!("health").map(|| "OK");
+
     let hello =
         warp::path!("hello" / String).map(|name| format!("Hello, \n{}!", decode_string(name)));
 
@@ -61,9 +65,9 @@ async fn main() {
         .map(|p: Hup| {
             let processed = match ProcessedHup::try_from(p) {
                 Ok(processed) => processed,
-                Err(e) => return Response::builder().body(format!("{}", e)),
+                Err(e) => return Response::builder().body(e.to_string()),
             };
-            Response::builder().body(format!("{}", processed.twos.get_letter_index()))
+            Response::builder().body(processed.twos.get_letter_index().to_string())
         });
 
     let example2 = warp::get()
@@ -73,7 +77,7 @@ async fn main() {
             Response::builder().body(format!("key1 = {}, key2 = {}", p.key1, p.key2))
         });
 
-    warp::serve(hello.or(example2).or(hup_path))
+    warp::serve(hello.or(example2).or(hup_path).or(health_check))
         .run(([127, 0, 0, 1], 3030))
         .await;
 }
