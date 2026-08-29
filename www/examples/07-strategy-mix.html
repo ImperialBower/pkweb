@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="pkweb example — the BTN c-bet split by hand class as stacked bars.">
+  <meta name="description" content="pkweb example — a solver c-bet split pasted straight into the HTML.">
   <title>07 · GTO strategy mix — pkweb examples</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,14 +16,25 @@
 </head>
 <body class="theme-midnight four-color">
 
+  <template id="demo">
+    <div data-pk="strategy-mix" data-board="Ks 7d 2h 9c 4s">
+      <script type="application/json">
+        { "gtoRows": [
+            { "cls": "Sets",           "combos": 9,  "bet33": 80, "bet75": 15 },
+            { "cls": "Top pair (Kx)",  "combos": 36, "bet33": 72, "bet75": 8  },
+            { "cls": "2nd pair (7x)",  "combos": 12, "bet33": 38, "bet75": 0  },
+            { "cls": "Underpairs",     "combos": 30, "bet33": 45, "bet75": 0  },
+            { "cls": "Overcards",      "combos": 32, "bet33": 64, "bet75": 6  },
+            { "cls": "Backdoor draws", "combos": 40, "bet33": 58, "bet75": 4  },
+            { "cls": "Air",            "combos": 60, "bet33": 30, "bet75": 2  } ] }
+      </script>
+    </div>
+  </template>
+
   <script type="module">
-    import { createStrategyMix } from '../js/components/strategy-mix.js';
     import { initExample } from '../js/example.js';
 
-    const page = initExample('strategy-mix');
-
-    // Static: no store, no subscription — call it and mount the result.
-    page.demo.append(createStrategyMix());
+    initExample('strategy-mix');
   </script>
 </body>
 </html>

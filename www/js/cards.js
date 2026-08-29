@@ -4,6 +4,13 @@ import { el } from './dom.js';
 const SUIT_CHAR = { s: '♠', h: '♥', d: '♦', c: '♣' };
 const SIZES = { mini: 'card-mini', board: 'card-board', small: 'card-small', big: 'card-big' };
 
+// 'Ks' -> 'K♠', for the places that show a card as text rather than a card.
+export function cardText(code) {
+  if (!code) return '';
+  const rank = code.slice(0, -1);
+  return (rank === 'T' ? '10' : rank) + (SUIT_CHAR[code[code.length - 1]] ?? '');
+}
+
 export function makeCard(cardStr, size = 'board', down = false) {
   const cls = SIZES[size] ?? SIZES.board;
   if (down || !cardStr) return el(`div.card.${cls}.card-down`);

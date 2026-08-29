@@ -27,9 +27,36 @@ cd www && python3 -m http.server 8777    # then http://127.0.0.1:8777
 All nine share one store, so the seat and street controls in the replayer
 drive every panel at once. Full API and conventions: [`www/README.md`](www/README.md).
 
-[`www/examples/`](www/examples/) takes them one at a time: a page per
-component with a live demo, the complete HTML to use it standalone, and the
-store keys it reads.
+## Your data, from the HTML
+
+Components hold no data of their own. Declare a panel, describe the hand in
+`data-*` attributes, and every panel on the page follows:
+
+```html
+<div data-pk="replayer"
+     data-hero="Qs Qh"
+     data-board="9c 6h 2s Qd 3c"
+     data-players="3"
+     data-street="turn"
+     data-stack="200"
+     data-open="3"
+     data-barrel="25 60 125"
+     data-range-btn="55+, A2s+, K6s+, Q8s+, J8s+, A9o+, KTo+"></div>
+
+<script type="module">
+  import { mountAll } from './js/mount.js';
+  mountAll();
+</script>
+```
+
+Ranges are poker notation, solver rows and action lists go in an inline JSON
+block, and every derived figure — pots, SPR, range percentages, the GTO
+bluffing target — is computed from what you gave. Declare nothing and you get
+the reference hand.
+
+[`www/examples/`](www/examples/) has a page per component: a live demo, the
+complete HTML that produces it, and every attribute it reads — plus
+[a whole page describing a different hand](www/examples/custom-hand.html).
 
 ## Themes
 

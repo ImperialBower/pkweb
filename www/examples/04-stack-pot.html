@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="pkweb example — effective stack, pot, SPR and bet-to-pot for the selected street.">
+  <meta name="description" content="pkweb example — stack, pot and SPR derived from an open and a barrel line.">
   <title>04 · Stack & pot — pkweb examples</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,18 +16,20 @@
 </head>
 <body class="theme-midnight four-color">
 
+  <template id="demo">
+    <div data-pk="stack"
+         data-stack="100"
+         data-open="2.5"
+         data-barrel="33 75 66"
+         data-players="2"
+         data-street="preflop"></div>
+  </template>
+
   <script type="module">
-    import { createStore } from '../js/store.js';
-    import { createStack } from '../js/components/stack.js';
     import { initExample, seatChips, streetChips } from '../js/example.js';
 
     const page = initExample('stack-pot');
-
-    const store = createStore({ players: 2, street: 0 });
-    page.demo.append(createStack(store));
-
-    page.controls.append(...seatChips(store), ...streetChips(store));
-    window.pkweb = { store };
+    page.controls.append(...seatChips(page.store), ...streetChips(page.store));
   </script>
 </body>
 </html>

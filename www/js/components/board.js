@@ -1,7 +1,7 @@
 // 02 · Board + hole cards — the hero's holding and the runout so far.
 import { el, fill } from '../dom.js';
 import { makeCard, makeBoard } from '../cards.js';
-import { buildHand, BOARD } from '../hand.js';
+import { buildHand } from '../hand.js';
 
 export function createBoard(store) {
   const heroRow = el('div.hero-row');
@@ -19,7 +19,7 @@ export function createBoard(store) {
       el('div.hero-eval', { html: `HERO<br><strong></strong>` }),
     );
     heroRow.querySelector('strong').textContent = hand.cur.eval;
-    fill(strip, makeBoard(BOARD, hand.cur.reveal, 'small'));
+    fill(strip, makeBoard(hand.board, hand.cur.reveal, 'small'));
   });
 
   return root;

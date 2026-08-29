@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="pkweb example — hero hole cards and the board revealed to the selected street.">
+  <meta name="description" content="pkweb example — hole cards and board, configured from HTML.">
   <title>02 · Board + hole cards — pkweb examples</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,18 +16,25 @@
 </head>
 <body class="theme-midnight four-color">
 
+  <template id="demo">
+    <div data-pk="board"
+         data-hero="Ah Kh"
+         data-board="Ks 7d 2h 9c 4s"
+         data-street="flop">
+      <script type="application/json">
+        { "evals": ["A♥K♥ — suited broadway",
+                    "Top pair, top kicker",
+                    "Top pair — 9 adds draws",
+                    "Top pair, top kicker — value"] }
+      </script>
+    </div>
+  </template>
+
   <script type="module">
-    import { createStore } from '../js/store.js';
-    import { createBoard } from '../js/components/board.js';
     import { initExample, streetChips } from '../js/example.js';
 
     const page = initExample('board-cards');
-
-    const store = createStore({ street: 1 });
-    page.demo.append(createBoard(store));
-
-    page.controls.append(...streetChips(store));   // demo-only driver
-    window.pkweb = { store };
+    page.controls.append(...streetChips(page.store));   // demo-only driver
   </script>
 </body>
 </html>

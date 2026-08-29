@@ -1,8 +1,7 @@
 // 06 · Hand range grid — the 13x13 with a hover readout, per range view.
 import { el, fill, on } from '../dom.js';
-import { RANGES, eachCell, weightClass } from '../ranges.js';
-
-const HERO_HAND = 'AKs';
+import { RANKS, eachCell, combosOf, weightClass } from '../ranges.js';
+import { buildHand } from '../hand.js';
 
 export function createRangeGrid(store) {
   const grid = el('div.range-grid');
@@ -24,8 +23,10 @@ export function createRangeGrid(store) {
   );
 
   store.subscribe(state => {
-    const view = state.view;
-    const weightOf = RANGES[view];
+    const hand = buildHand(state);
+    const view = state.view === 'BB' ? 'BB' : 'BTN';
+    const weightOf = hand.ranges[view];
+    const heroHand = hand.heroHand;
 
     on(viewBtn, 'is-on', view === 'BTN');
     on(viewBb, 'is-on', view === 'BB');
@@ -38,18 +39,29 @@ export function createRangeGrid(store) {
         text: name,
         onmouseenter: () => store.set({ hov: { name, w, combos } }),
       });
-      return on(cell, 'is-hero', name === HERO_HAND);
+      return on(cell, 'is-hero', name === heroHand);
     }));
 
-    const hov = state.hov ?? { name: HERO_HAND, w: 1, combos: 4 };
+    const hov = state.hov ?? { name: heroHand, w: weightOf(...cellOf(heroHand)), combos: combosOfName(heroHand) };
     outHand.textContent = hov.name;
     outCombos.textContent = `${hov.combos} combos`;
-    outWeight.querySelector('strong').textContent =
-      hov.w === 1 ? '100%' : hov.w === 0.5 ? '50%' : '0%';
+    outWeight.querySelector('strong').textContent = `${Math.round(hov.w * 100)}%`;
     outSummary.textContent = view === 'BTN'
-      ? 'BTN opens ~43% · 2.5bb'
-      : 'BB defends ~38% vs 2.5bb';
+      ? `BTN opens ~${Math.round(hand.rangePct.BTN)}% · ${hand.spec.open}bb`
+      : `BB defends ~${Math.round(hand.rangePct.BB)}% vs ${hand.spec.open}bb`;
   });
 
   return root;
+}
+
+// 'AKs' -> the grid coordinates and the combo count, for the default readout.
+function cellOf(name) {
+  const hi = RANKS.indexOf(name[0]), lo = RANKS.indexOf(name[1]);
+  if (hi === lo) return [hi, hi];
+  const [a, b] = hi <= lo ? [hi, lo] : [lo, hi];
+  return name.endsWith('o') ? [b, a] : [a, b];
+}
+
+function combosOfName(name) {
+  return combosOf(...cellOf(name));
 }

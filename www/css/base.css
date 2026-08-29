@@ -82,6 +82,10 @@ a.chip:hover { color: var(--accent); }
   max-width: 1480px; margin: 0 auto; padding: 28px 32px;
   display: flex; flex-direction: column; gap: 26px;
 }
+/* A mount point is markup, not layout: the component it holds is the grid
+   or flex item, exactly as if it had been placed there directly. */
+[data-pk] { display: contents; }
+
 .row { display: grid; gap: 26px; }
 .row-3 { grid-template-columns: 1.25fr 1fr 1fr; }
 .row-2 { grid-template-columns: 1.35fr 1fr; }

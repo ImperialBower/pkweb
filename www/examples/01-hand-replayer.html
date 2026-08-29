@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="pkweb example — the hand replayer: felt, seats, pot and per-street action.">
+  <meta name="description" content="pkweb example — the hand replayer, configured from HTML.">
   <title>01 · Hand replayer — pkweb examples</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,19 +16,32 @@
 </head>
 <body class="theme-midnight four-color">
 
+  <template id="demo">
+    <div data-pk="replayer"
+         data-hero="Ah Kh"
+         data-villain="Kc Jc"
+         data-board="Ks 7d 2h 9c 4s"
+         data-players="2"
+         data-street="preflop"
+         data-open="2.5"
+         data-barrel="33 75 66"
+         data-stack="100"
+         data-game="NO LIMIT HOLD'EM">
+      <script type="application/json">
+        { "names": { "BTN": "Hero", "BB": "Villain" },
+          "evals": ["A♥K♥ — suited broadway",
+                    "Top pair, top kicker",
+                    "Top pair — 9 adds draws",
+                    "Top pair, top kicker — value"] }
+      </script>
+    </div>
+  </template>
+
   <script type="module">
-    import { createStore } from '../js/store.js';
-    import { createReplayer } from '../js/components/replayer.js';
     import { initExample } from '../js/example.js';
 
-    const page = initExample('hand-replayer');
-
-    // The replayer ships its own seat and street chips, so the store needs
-    // no outside driver on this page.
-    const store = createStore({ players: 2, street: 0 });
-    page.demo.append(createReplayer(store));
-
-    window.pkweb = { store };
+    // The replayer ships its own seat and street chips, so this page adds none.
+    initExample('hand-replayer');
   </script>
 </body>
 </html>

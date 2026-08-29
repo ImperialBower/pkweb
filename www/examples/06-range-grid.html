@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="pkweb example — the 13x13 range grid with weights, hover readout and range switch.">
+  <meta name="description" content="pkweb example — a 13x13 range grid written in poker notation.">
   <title>06 · Hand range grid — pkweb examples</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,19 +16,23 @@
 </head>
 <body class="theme-midnight four-color">
 
+  <template id="demo">
+    <div data-pk="range-grid"
+         data-hero-hand="AKs"
+         data-view="BTN"
+         data-open="2.5"
+         data-range-btn="22+, A2s+, K2s+, Q5s+, J7s+, T7s+, 96s+, 86s+, 75s+, 64s+, 54s, 43s,
+                         A2o+, K8o+, Q9o+, J9o+, T9o, 98o"
+         data-range-bb="22+, A2s+, K2s+, Q6s+, J7s+, T7s+, 97s+, 86s+, 75s+, 65s, 54s,
+                        A2o+, K9o+, Q9o+, J9o+, T9o"></div>
+  </template>
+
   <script type="module">
-    import { createStore } from '../js/store.js';
-    import { createRangeGrid } from '../js/components/range-grid.js';
     import { initExample } from '../js/example.js';
 
-    const page = initExample('range-grid');
-
-    // The panel header carries its own BTN / BB chips; hovering a cell writes
-    // `hov` for any other panel on the same store to read.
-    const store = createStore({ view: 'BTN', hov: null });
-    page.demo.append(createRangeGrid(store));
-
-    window.pkweb = { store };
+    // The panel carries its own BTN / BB chips; hovering a cell writes `hov`
+    // for any other panel on the same store to read.
+    initExample('range-grid');
   </script>
 </body>
 </html>

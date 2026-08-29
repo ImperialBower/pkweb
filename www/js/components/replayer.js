@@ -1,7 +1,7 @@
 // 01 · Hand replayer — the felt, the seats, the pot and the street stepper.
 import { el, fill, on } from '../dom.js';
 import { makeCard, makeBoard } from '../cards.js';
-import { buildHand, actorClass, STREETS, BOARD } from '../hand.js';
+import { buildHand, actorClass, STREETS } from '../hand.js';
 
 export function createReplayer(store) {
   const seatChips = [2, 3, 4, 5, 6].map(n =>
@@ -13,9 +13,9 @@ export function createReplayer(store) {
       onclick: () => store.set({ street: i }) }));
 
   const stepBack = el('button.chip.chip-step', { type: 'button', text: '◀', 'aria-label': 'Previous street',
-    onclick: () => store.set({ street: Math.max(0, store.get().street - 1) }) });
+    onclick: () => store.set({ street: Math.max(0, (store.get().street ?? 0) - 1) }) });
   const stepFwd = el('button.chip.chip-step', { type: 'button', text: '▶', 'aria-label': 'Next street',
-    onclick: () => store.set({ street: Math.min(3, store.get().street + 1) }) });
+    onclick: () => store.set({ street: Math.min(3, (store.get().street ?? 0) + 1) }) });
 
   const felt = el('div.felt-wrap', {},
     el('div.felt'),
@@ -23,7 +23,8 @@ export function createReplayer(store) {
   );
   const potBadge = el('div.pot-badge');
   const feltBoard = el('div.felt-board');
-  felt.append(potBadge, feltBoard, el('div.felt-label', { text: "NO LIMIT HOLD'EM" }));
+  const feltLabel = el('div.felt-label');
+  felt.append(potBadge, feltBoard, feltLabel);
 
   const actionTitle = el('div.label-mono');
   const actionList = el('div.action-panel', {}, actionTitle);
@@ -67,8 +68,9 @@ export function createReplayer(store) {
       felt.append(seat);
     }
 
+    feltLabel.textContent = hand.game;
     potBadge.textContent = `POT ${hand.cur.potEnd}bb`;
-    fill(feltBoard, makeBoard(BOARD, hand.cur.reveal));
+    fill(feltBoard, makeBoard(hand.board, hand.cur.reveal));
 
     actionTitle.textContent = `ACTION — ${hand.cur.name}`;
     fill(actionList, actionTitle,
@@ -82,4 +84,3 @@ export function createReplayer(store) {
 
   return root;
 }
-

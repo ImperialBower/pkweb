@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="pkweb example — a different hand entirely, with every panel configured from HTML.">
+  <title>A different hand — pkweb examples</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700;800&family=Archivo:wght@400;500;700;800&family=Marcellus&family=Caprasimo&family=Figtree:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/cards.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/examples.css">
+</head>
+<body class="theme-midnight four-color">
+
+  <header id="topbar">
+    <div class="brand-group">
+      <div class="brand">PK<span class="brand-accent">COMPONENTS</span></div>
+      <div class="tagline">A DIFFERENT HAND · ALL NINE PANELS</div>
+    </div>
+    <div class="topbar-controls">
+      <a class="chip chip-sm" href="index.html">← ALL EXAMPLES</a>
+      <span class="topbar-divider"></span>
+      <div id="theme-chips" class="theme-chips"></div>
+      <button id="deck-toggle" type="button" class="chip chip-toggle" title="Toggle 2/4-color deck">
+        4-COLOR<span class="dot"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="ex">
+    <div>
+      <h1 class="ex-title">A different hand</h1>
+      <p class="ex-lede">Not one line of JavaScript describes this hand — every card, price, range and
+        solver row below comes from the <code>data-*</code> attributes and JSON blocks in this page's
+        markup. QQ three-handed, 200bb deep, a 3bb open and a 25 / 60 / 125 percent line into an
+        overbet river. Compare it with the gallery, which declares no data at all and so shows the
+        reference hand instead.</p>
+    </div>
+
+    <!-- One data-store name, so all nine panels share a store and the
+         replayer's chips drive the whole page. -->
+    <div data-pk="replayer"
+         data-store="qq"
+         data-hero="Qs Qh"
+         data-villain="Ad Kd"
+         data-board="9c 6h 2s Qd 3c"
+         data-hero-hand="QQ"
+         data-players="3"
+         data-street="turn"
+         data-stack="200"
+         data-open="3"
+         data-barrel="25 60 125"
+         data-equity="79.4 88.1 96.5 99.2"
+         data-game="NLHE · 200BB DEEP"
+         data-range-btn="55+, A2s+, K6s+, Q8s+, J8s+, T8s+, 97s+, 86s+, 75s+, A9o+, KTo+, QTo+, JTo"
+         data-range-bb="22+, A2s+, K5s+, Q7s+, J8s+, T8s+, 97s+, 86s+, 75s+, 65s, A7o+, K9o+, Q9o+, J9o+"
+         data-range-equity="58.2 41.8">
+      <script type="application/json">
+        { "names": { "BTN": "Hero", "BB": "Villain", "SB": "Folded SB" },
+          "evals": ["Q♠Q♥ — second-best pair", "Overpair on a low flop",
+                    "Top set — 9♣6♥2♠Q♦", "Top set, overbetting for value"],
+          "actions": {
+            "preflop": [["SB", "fold"], ["BTN", "raise 3bb"], ["BB", "call 3bb"]],
+            "flop":    [["BB", "check"], ["BTN", "bet 1.6bb · 25%"], ["BB", "call"]],
+            "turn":    [["BB", "check"], ["BTN", "bet 5.8bb · 60%"], ["BB", "call"]],
+            "river":   [["BB", "check"], ["BTN", "bet 31bb · 125%"], ["BB", "call"]] },
+          "gtoRows": [
+            { "cls": "Top set (QQ)",   "combos": 3,  "bet33": 5,  "bet75": 92 },
+            { "cls": "Sets (99/66)",   "combos": 6,  "bet33": 12, "bet75": 84 },
+            { "cls": "Two pair",       "combos": 14, "bet33": 40, "bet75": 44 },
+            { "cls": "Overpairs",      "combos": 18, "bet33": 62, "bet75": 20 },
+            { "cls": "Broadway air",   "combos": 44, "bet33": 22, "bet75": 34 },
+            { "cls": "Busted draws",   "combos": 26, "bet33": 8,  "bet75": 55 } ],
+          "value": [ { "h": "QQ (top set)",   "n": 3 },
+                     { "h": "99 / 66 (sets)", "n": 6 },
+                     { "h": "Q9s (two pair)", "n": 2 } ],
+          "bluff": [ { "h": "AKo (missed)",   "n": 9 },
+                     { "h": "JTs (busted)",   "n": 3 } ] }
+      </script>
+    </div>
+
+    <div class="row row-3">
+      <div data-pk="board" data-store="qq"></div>
+      <div data-pk="equity" data-store="qq"></div>
+      <div data-pk="stack" data-store="qq"></div>
+    </div>
+
+    <div data-pk="timeline" data-store="qq"></div>
+
+    <div class="row row-2">
+      <div data-pk="range-grid" data-store="qq"></div>
+      <div data-pk="strategy-mix" data-store="qq"></div>
+    </div>
+
+    <div class="row row-2">
+      <div data-pk="range-vs-range" data-store="qq"></div>
+      <div data-pk="combos" data-store="qq"></div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initThemes, initDeckToggle } from '../js/themes.js';
+    import { mountAll } from '../js/mount.js';
+
+    initThemes(document.getElementById('theme-chips'));
+    initDeckToggle(document.getElementById('deck-toggle'));
+
+    // Config lives on the replayer; every panel with the same data-store
+    // name shares it, so the whole page describes one hand once.
+    window.pkweb = { stores: mountAll() };
+  </script>
+</body>
+</html>

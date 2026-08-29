@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="pkweb example — the value-to-bluff ratio of a river bet against the GTO target.">
+  <meta name="description" content="pkweb example — a river betting range's value-to-bluff ratio.">
   <title>09 · Combo breakdown — pkweb examples</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,13 +16,23 @@
 </head>
 <body class="theme-midnight four-color">
 
+  <template id="demo">
+    <div data-pk="combos" data-barrel="33 75 66">
+      <script type="application/json">
+        { "value": [ { "h": "AK (top pair)",  "n": 9  },
+                     { "h": "KQ (top pair)",  "n": 12 },
+                     { "h": "77 / 22 (sets)", "n": 6  } ],
+          "bluff": [ { "h": "QJs (missed)",   "n": 3  },
+                     { "h": "JTs (missed)",   "n": 3  },
+                     { "h": "T8s / 53s",      "n": 7  } ] }
+      </script>
+    </div>
+  </template>
+
   <script type="module">
-    import { createCombos } from '../js/components/combos.js';
     import { initExample } from '../js/example.js';
 
-    const page = initExample('combo-breakdown');
-
-    page.demo.append(createCombos());
+    initExample('combo-breakdown');
   </script>
 </body>
 </html>
