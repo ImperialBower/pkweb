@@ -18,11 +18,13 @@ element-factory modules, `localStorage` persistence).
 ```
 www/
   index.html              the gallery — all nine components on one page
+  examples/               one page per component, with copy-paste usage
   css/
     tokens.css            4 themes + the fixed card-pip colors
     base.css              page shell, header, the shared .chip control
     cards.css             playing cards at four sizes
     components.css        the nine components
+    examples.css          chrome for examples/ — demo furniture only
   js/
     store.js              observable store (get / set / subscribe)
     dom.js                el() / fill() / on() element helpers
@@ -31,6 +33,7 @@ www/
     ranges.js             13x13 grid maths and the two reference ranges
     hand.js               the reference hand — everything derives from this
     main.js               wires the gallery
+    example.js            catalog + scaffolding behind examples/
     components/           one module per component
 ```
 
@@ -47,6 +50,20 @@ www/
 | 07 | `components/strategy-mix.js` | `createStrategyMix()` | — static |
 | 08 | `components/range-vs-range.js` | `createRangeVsRange()` | — static |
 | 09 | `components/combos.js` | `createCombos()` | — static |
+
+## Examples
+
+[`examples/`](examples/) has one page per component — a live demo you can
+theme and step through, the complete HTML needed to use that component on its
+own, and a table of the store keys it reads and writes. Start at
+[`examples/index.html`](examples/index.html).
+
+The pages share `js/example.js` (the catalog, the header, the prev/next nav
+and the usage snippet) and `css/examples.css`. Both are demo furniture — no
+component depends on them, and the usage block on each page is the whole
+story.
+
+## Mounting a component
 
 Each returns a detached `HTMLElement` — mount it wherever you like:
 

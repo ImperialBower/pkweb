@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="pkweb example — the hand replayer: felt, seats, pot and per-street action.">
+  <title>01 · Hand replayer — pkweb examples</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700;800&family=Archivo:wght@400;500;700;800&family=Marcellus&family=Caprasimo&family=Figtree:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/cards.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/examples.css">
+</head>
+<body class="theme-midnight four-color">
+
+  <script type="module">
+    import { createStore } from '../js/store.js';
+    import { createReplayer } from '../js/components/replayer.js';
+    import { initExample } from '../js/example.js';
+
+    const page = initExample('hand-replayer');
+
+    // The replayer ships its own seat and street chips, so the store needs
+    // no outside driver on this page.
+    const store = createStore({ players: 2, street: 0 });
+    page.demo.append(createReplayer(store));
+
+    window.pkweb = { store };
+  </script>
+</body>
+</html>

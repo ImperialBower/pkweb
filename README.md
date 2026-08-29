@@ -27,6 +27,10 @@ cd www && python3 -m http.server 8777    # then http://127.0.0.1:8777
 All nine share one store, so the seat and street controls in the replayer
 drive every panel at once. Full API and conventions: [`www/README.md`](www/README.md).
 
+[`www/examples/`](www/examples/) takes them one at a time: a page per
+component with a live demo, the complete HTML to use it standalone, and the
+store keys it reads.
+
 ## Themes
 
 `theme-midnight` (default), `theme-terminal`, `theme-luxe`, `theme-organic` —
@@ -44,6 +48,7 @@ legible to each other.
 ```
 www/
   index.html              the gallery — all nine components
+  examples/               one page per component, with copy-paste usage
   css/                    tokens, shell, cards, components
   js/                     store, dom, themes, cards, ranges, hand
     components/           one module per component

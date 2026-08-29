@@ -57,6 +57,11 @@ a:hover { color: var(--accent-deep); }
   color: var(--accent);
   font-weight: 800;
 }
+/* A chip that is a link, and a chip that stands in for a dead-end link. */
+a.chip { text-decoration: none; display: inline-block; }
+a.chip:hover { color: var(--accent); }
+.chip.is-off { opacity: .4; pointer-events: none; }
+
 .chip-sm { font-size: 10px; padding: 6px 11px; }
 .chip-square {
   width: 28px; height: 28px; padding: 0;
@@ -106,6 +111,10 @@ a:hover { color: var(--accent-deep); }
   font-size: 11px; letter-spacing: 2px;
   color: var(--accent); font-weight: 700;
 }
+/* A title outside a .panel-head has no head to space it off the content
+   below — unless a .panel-sub follows, which belongs to the heading. */
+.panel > .panel-title + *:not(.panel-sub) { margin-top: 16px; }
+
 .panel-sub { font-size: 11px; color: var(--dim); margin-bottom: 14px; }
 .panel-note {
   margin-top: 14px;
