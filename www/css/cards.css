@@ -1,0 +1,50 @@
+/* Playing cards. Pip color comes from the fixed --pip-* tokens, so it is the
+   one thing that does NOT change with the theme — only with body.four-color. */
+
+.card {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  flex: none;
+}
+
+.suit-s { color: var(--pip-black); }
+.suit-h { color: var(--pip-red); }
+.suit-d { color: var(--pip-diamond); }
+.suit-c { color: var(--pip-club); }
+
+/* Sizes */
+.card-mini  { width: 30px; height: 42px; border-radius: var(--r-sm);   font-size: 12px; font-weight: 800; }
+.card-board { width: 46px; height: 66px; border-radius: var(--r-card); }
+.card-board .card-rank { font-size: 16px; font-weight: 800; }
+.card-board .card-suit { font-size: 14px; }
+.card-small { width: 34px; height: 48px; border-radius: var(--r-sm); font-size: 13px; }
+.card-small .card-rank { font-weight: 800; }
+.card-big   { width: 64px; height: 90px; border-radius: var(--r-card); gap: 2px; }
+.card-big .card-rank { font-size: 24px; font-weight: 800; }
+.card-big .card-suit { font-size: 20px; }
+
+/* Face down — the woven back */
+.card-down {
+  background: repeating-linear-gradient(45deg,
+    var(--back-a), var(--back-a) 3px,
+    var(--back-b) 3px, var(--back-b) 6px);
+  border-color: var(--border-2);
+  box-shadow: none;
+}
+
+/* Undealt slot */
+.card-slot {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  border: 1.5px dashed var(--slot-border);
+  background: transparent;
+  box-shadow: none;
+  flex: none;
+}
+.card-slot.card-board { padding-bottom: 6px; }
+.card-slot-label {
+  font-size: 8px; color: var(--slot-text); letter-spacing: 1px;
+}

@@ -1,0 +1,326 @@
+/* The nine components. Each block matches one module in js/components/. */
+
+/* ── 01 · Hand replayer ─────────────────────────────────────────────── */
+.replayer-body { display: flex; gap: 24px; flex-wrap: wrap; }
+.replayer-seats-label { font-size: 10px; letter-spacing: 1px; margin-right: 2px; }
+
+.felt-wrap { position: relative; flex: 1.7; min-width: 520px; min-height: 340px; }
+.felt {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 32%, var(--felt-a), var(--felt-b) 78%);
+  border: 2px solid var(--felt-border);
+  box-shadow: var(--felt-shadow);
+}
+.felt-ring {
+  position: absolute; inset: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--felt-ring);
+}
+.felt-label {
+  position: absolute; top: 70%; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: 4px;
+  color: var(--felt-text); white-space: nowrap;
+}
+
+.seat {
+  position: absolute; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  z-index: 2;
+}
+.seat.is-above { flex-direction: column-reverse; }
+.seat.is-folded { opacity: .45; }
+.seat-cards { display: flex; gap: 4px; justify-content: center; }
+.seat-plate {
+  background: var(--panel-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-md);
+  padding: 7px 14px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; white-space: nowrap;
+  box-shadow: var(--card-shadow);
+}
+.seat.is-hero .seat-plate { border-color: var(--accent); }
+.seat-pos { font-weight: 800; }
+.seat-stack { color: var(--gold); }
+.seat-button {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold); display: inline-block;
+}
+
+.pot-badge {
+  position: absolute; top: 33%; left: 50%; transform: translateX(-50%);
+  background: var(--pot-bg);
+  border: 1px solid var(--pot-border);
+  border-radius: var(--r-pill);
+  padding: 6px 18px;
+  font-family: var(--font-mono);
+  font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  color: var(--pot-col);
+}
+.felt-board {
+  position: absolute; top: 46%; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px;
+}
+
+.action-panel {
+  flex: 1; min-width: 260px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.action-row {
+  display: flex; gap: 10px; align-items: center;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--dim);
+  border-radius: var(--r-md);
+  padding: 8px 12px;
+  font-size: 12px;
+}
+.action-who { font-weight: 800; font-size: 11px; min-width: 34px; }
+.action-hint { margin-top: auto; font-size: 11px; color: var(--faint); line-height: 1.6; }
+
+/* Actor colors — shared by the replayer and the timeline */
+.actor-btn  { color: var(--accent); }
+.actor-bb   { color: var(--gold); }
+.actor-sd   { color: var(--blue); }
+.actor-none { color: var(--dim); }
+.action-row.actor-btn  { border-left-color: var(--accent); }
+.action-row.actor-bb   { border-left-color: var(--gold); }
+.action-row.actor-sd   { border-left-color: var(--blue); }
+.action-row.actor-none { border-left-color: var(--dim); }
+
+/* ── 02 · Board + hole cards ────────────────────────────────────────── */
+.board-stack { display: flex; flex-direction: column; gap: 16px; }
+.hero-row { display: flex; gap: 8px; align-items: center; }
+.hero-eval {
+  margin-left: 8px;
+  font-size: 12px; color: var(--dim); line-height: 1.6;
+}
+.hero-eval strong { color: var(--text); font-weight: 700; }
+.board-strip { display: flex; gap: 6px; }
+
+/* ── 03 · Equity ────────────────────────────────────────────────────── */
+.eq-value {
+  font-family: var(--font-mono);
+  font-size: 34px; font-weight: 700; color: var(--accent);
+}
+.eq-value .unit { font-size: 16px; color: var(--dim); }
+.eq-track {
+  height: 12px; margin: 12px 0 16px;
+  border-radius: var(--r-pill);
+  background: var(--deep);
+  overflow: hidden; display: flex;
+}
+.eq-fill {
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  transition: width .5s cubic-bezier(.4, 0, .2, 1);
+}
+.eq-bars { display: flex; gap: 8px; align-items: flex-end; height: 64px; }
+.eq-bar-col {
+  flex: 1; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;
+  cursor: pointer;
+  background: none; border: 0; padding: 0;
+}
+.eq-bar-col:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eq-bar {
+  border-radius: 4px 4px 0 0;
+  background: var(--eq-dim);
+  transition: background .2s;
+}
+.eq-bar-col.is-on .eq-bar { background: var(--accent); }
+.eq-bar-label {
+  font-family: var(--font-mono);
+  font-size: 9px; text-align: center; color: var(--faint);
+}
+.eq-bar-col.is-on .eq-bar-label { color: var(--accent); }
+
+/* ── 04 · Stack & pot ───────────────────────────────────────────────── */
+.stat-list { display: flex; flex-direction: column; gap: 10px; }
+.stat-row {
+  display: flex; justify-content: space-between;
+  font-size: 13px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+.stat-key { color: var(--dim); }
+.stat-val { font-weight: 700; }
+.stat-val.is-pot { color: var(--gold); }
+.stat-val.is-spr { color: var(--accent); }
+
+/* ── 05 · Action timeline ───────────────────────────────────────────── */
+.timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 900px) { .timeline { grid-template-columns: repeat(2, 1fr); } }
+.tl-col {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--tl-off);
+  cursor: pointer;
+  text-align: left; font-family: inherit; color: inherit;
+}
+.tl-col.is-on { border-color: var(--accent); background: var(--tl-on); }
+.tl-col:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tl-head { display: flex; justify-content: space-between; align-items: baseline; }
+.tl-name {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--dim);
+}
+.tl-col.is-on .tl-name { color: var(--accent); }
+.tl-cards { font-size: 11px; color: var(--dim); }
+.tl-acts { display: flex; flex-direction: column; gap: 6px; min-height: 88px; }
+.tl-act { font-size: 11px; color: var(--muted); }
+.tl-act .action-who { min-width: 0; }
+.tl-foot { display: flex; align-items: center; gap: 8px; }
+.tl-track {
+  flex: 1; height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--deep);
+  overflow: hidden;
+}
+.tl-bar { height: 100%; background: linear-gradient(90deg, var(--gold-deep), var(--gold)); }
+.tl-pot {
+  font-family: var(--font-mono);
+  font-size: 11px; color: var(--gold); font-weight: 700;
+}
+
+/* ── 06 · Hand range grid ───────────────────────────────────────────── */
+.range-grid { display: grid; grid-template-columns: repeat(13, 1fr); gap: 2px; }
+.range-cell {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 400;
+  border-radius: 3px;
+  background: var(--deep);
+  color: var(--faint);
+  cursor: default;
+}
+.range-cell.w-full { font-weight: 700; color: var(--cell-text); }
+.range-cell.w-half { font-weight: 700; color: var(--text); }
+.range-cell.is-hero { outline: 2px solid var(--gold); outline-offset: -2px; }
+
+/* Weight fills, per selected range view */
+.view-btn .range-cell.w-full { background: var(--accent-deep); }
+.view-btn .range-cell.w-half {
+  background: linear-gradient(135deg, var(--accent-half) 50%, var(--deep) 50%);
+}
+.view-bb .range-cell.w-full { background: var(--gold-deep); }
+.view-bb .range-cell.w-half {
+  background: linear-gradient(135deg, var(--gold-half) 50%, var(--deep) 50%);
+}
+
+.range-readout {
+  margin-top: 14px;
+  background: var(--panel-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+  font-size: 12px;
+}
+.range-readout .hand {
+  font-family: var(--font-mono);
+  font-weight: 700; color: var(--accent); font-size: 14px;
+}
+.range-readout .meta { color: var(--dim); }
+.range-readout .meta strong { color: var(--text); font-weight: 700; }
+.range-readout .summary { margin-left: auto; color: var(--faint); }
+
+/* ── 07 · GTO strategy mix ──────────────────────────────────────────── */
+.gto-legend {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  font-size: 10px; color: var(--dim);
+  margin-bottom: 12px;
+}
+.gto-legend .swatch {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 2px; margin-right: 5px;
+}
+.swatch-bet33  { background: var(--accent); }
+.swatch-bet75  { background: var(--gold); }
+.swatch-check  { background: var(--check); }
+
+.gto-rows { display: flex; flex-direction: column; gap: 10px; }
+.gto-row { display: flex; flex-direction: column; gap: 4px; }
+.gto-row-head { display: flex; justify-content: space-between; font-size: 11px; }
+.gto-row-head .combos { color: var(--dim); }
+.gto-bar {
+  display: flex; height: 14px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.gto-seg-bet33 { background: var(--accent); }
+.gto-seg-bet75 { background: var(--gold); }
+.gto-seg-check { flex: 1; background: var(--check); }
+
+/* ── 08 · Range vs range ────────────────────────────────────────────── */
+.rvr-grids { display: flex; gap: 24px; flex-wrap: wrap; }
+.rvr-col { flex: 1; min-width: 160px; max-width: 220px; }
+.rvr-title {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700; margin-bottom: 8px;
+}
+.rvr-title.is-btn { color: var(--accent); }
+.rvr-title.is-bb  { color: var(--gold); }
+.mini-grid { display: grid; grid-template-columns: repeat(13, 1fr); gap: 1px; }
+.mini-cell { aspect-ratio: 1; border-radius: 2px; background: var(--deep); }
+.mini-btn.w-full { background: var(--accent-deep); }
+.mini-btn.w-half { background: var(--accent-half); }
+.mini-bb.w-full  { background: var(--gold-deep); }
+.mini-bb.w-half  { background: var(--gold-half); }
+
+.rvr-equity { margin-top: 18px; }
+.rvr-equity-head {
+  display: flex; justify-content: space-between;
+  font-size: 12px; margin-bottom: 6px;
+}
+.rvr-equity-head .side {
+  font-family: var(--font-mono); font-weight: 700;
+}
+.rvr-equity-head .side.is-btn { color: var(--accent); }
+.rvr-equity-head .side.is-bb  { color: var(--gold); }
+.rvr-equity-head .caption { color: var(--dim); }
+.rvr-bar {
+  height: 10px; display: flex;
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+.rvr-bar .fill-btn { background: linear-gradient(90deg, var(--accent-deep), var(--accent)); }
+.rvr-bar .fill-bb  { flex: 1; background: linear-gradient(90deg, var(--gold-deep), var(--gold)); }
+
+/* ── 09 · Combo breakdown ───────────────────────────────────────────── */
+.combo-bar {
+  position: relative; height: 18px;
+  display: flex; margin-bottom: 6px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.combo-bar .fill-value { background: linear-gradient(90deg, var(--accent-deep), var(--accent)); }
+.combo-bar .fill-bluff { flex: 1; background: var(--danger-deep); }
+.combo-target {
+  position: absolute; top: 0; bottom: 0;
+  width: 2px; background: var(--text);
+}
+.combo-legend {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-size: 11px; color: var(--dim);
+  margin-bottom: 18px;
+}
+.combo-legend .is-value { color: var(--accent); font-weight: 700; }
+.combo-legend .is-bluff { color: var(--danger); font-weight: 700; }
+.combo-lists { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 12px; }
+.combo-col-title {
+  font-family: var(--font-mono);
+  font-weight: 700; font-size: 11px; letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.combo-col-title.is-value { color: var(--accent); }
+.combo-col-title.is-bluff { color: var(--danger); }
+.combo-row {
+  display: flex; justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line);
+}
+.combo-row .n { color: var(--dim); }

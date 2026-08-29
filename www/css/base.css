@@ -1,0 +1,117 @@
+/* Page shell, header and the shared controls every component reuses. */
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  padding-bottom: 72px;
+}
+
+a { color: var(--accent); }
+a:hover { color: var(--accent-deep); }
+::selection { background: var(--accent-deep); color: var(--cell-text); }
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+#topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 18px 32px;
+  border-bottom: 1px solid var(--border);
+}
+.brand-group { display: flex; align-items: baseline; gap: 12px; }
+.brand {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 19px; letter-spacing: 1px;
+}
+.brand-accent { color: var(--accent); }
+.tagline {
+  font-family: var(--font-mono);
+  font-size: 11px; color: var(--dim); letter-spacing: 2px;
+}
+.topbar-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.topbar-divider { width: 1px; height: 20px; background: var(--border-2); }
+.theme-chips { display: flex; gap: 6px; }
+
+/* ── Chips: the shared on/off pill used by themes, streets and views ── */
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 1px; font-weight: 500;
+  padding: 6px 14px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-pill);
+  background: var(--panel-2);
+  color: var(--dim);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chip.is-on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+.chip-sm { font-size: 10px; padding: 6px 11px; }
+.chip-square {
+  width: 28px; height: 28px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.chip-step { padding: 6px 12px; font-size: 12px; color: var(--text); }
+
+.chip-toggle { display: flex; align-items: center; gap: 8px; padding: 7px 14px; }
+.chip-toggle .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--faint);
+}
+.chip-toggle.is-on { background: var(--panel-2); }
+.chip-toggle.is-on .dot { background: var(--accent); }
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+#gallery {
+  max-width: 1480px; margin: 0 auto; padding: 28px 32px;
+  display: flex; flex-direction: column; gap: 26px;
+}
+.row { display: grid; gap: 26px; }
+.row-3 { grid-template-columns: 1.25fr 1fr 1fr; }
+.row-2 { grid-template-columns: 1.35fr 1fr; }
+
+@media (max-width: 1100px) {
+  .row-3, .row-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  #topbar { padding: 14px 16px; }
+  #gallery { padding: 20px 16px; gap: 18px; }
+}
+
+/* ── Panel: the card every component sits in ────────────────────────── */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 22px 24px;
+}
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 2px;
+  color: var(--accent); font-weight: 700;
+}
+.panel-sub { font-size: 11px; color: var(--dim); margin-bottom: 14px; }
+.panel-note {
+  margin-top: 14px;
+  font-size: 11px; color: var(--faint); line-height: 1.7;
+}
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 2px; color: var(--dim);
+}
